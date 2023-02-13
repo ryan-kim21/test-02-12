@@ -8,7 +8,7 @@ pipeline{
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
-        NEXUS_PASS = ''
+        NEXUS_PASS = 'admin900529!'
         RELEASE_REPO = 'vprofile-release'
         CENTRAL_REPO = 'vpro-maven-central'
         NEXUSIP = '172.31.1.85' //private IP
@@ -21,6 +21,13 @@ pipeline{
         stage('Build'){
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
+            }
+
+            post {
+                success{
+                    echo "Now Archiving."
+                    archiveArtififacts artifacts: '**/*.war'
+                }
             }
         }
     }
